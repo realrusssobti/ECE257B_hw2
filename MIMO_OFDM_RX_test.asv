@@ -233,6 +233,12 @@ payload_syms_mat_B = rx_syms_case_1(SC_IND_DATA, :);
 
 %% perform demodulate or demapping post combined symbols 
 
+maxVal_1 = max(abs(rx_syms_case_2_dec(:)));
+maxVal_2 = max(abs(rx_syms_case_1(:)));
+% normalize case 1 ( this is a workaround )
+    rx_syms_case_1 = rx_syms_case_1 / (maxVal_2 / maxVal_1);
+    % rx_syms_case_1 = -1.*rx_syms_case_1;
+
 % Select odd and even indices
 odd_inds  = 1:2:length(rx_syms_case_1);
 even_inds = 2:2:length(rx_syms_case_1);
@@ -242,15 +248,7 @@ rx_syms_case_1(odd_inds) = complex(-real(rx_syms_case_1(odd_inds)), imag(rx_syms
 
 % For even indices: take the complex conjugate.
 rx_syms_case_1(even_inds) = conj(rx_syms_case_1(even_inds));
-% rx_syms_case_1 = conj(rx_syms_case_1);
-
-maxVal_1 = max(abs(rx_syms_case_2_dec(:)));
-maxVal_2 = max(abs(rx_syms_case_1(:)));
-% normalize case 1 ( this is a workaround )
-    rx_syms_case_1 = rx_syms_case_1 / (maxVal_2 / maxVal_1);
-    % rx_syms_case_1 = -1.*rx_syms_case_1;
-
-
+rx_syms_case_1
 
 % plot the demodulated output rx_syms_case_1 and rx_syms_case_2
 figure(4);
@@ -275,7 +273,7 @@ Demap_out_case_1 = demapper(rx_syms_case_1,MOD_ORDER,1);
 Demap_out_case_2 = demapper(rx_syms_case_2_dec,MOD_ORDER,1);
 
 % viterbi decoder
-rx_data_final_1 = vitdec(Demap_out_case_1,trel,7,'trunc','hard');
+rx_data_final_1= vitdec(Demap_out_case_1,trel,7,'trunc','hard');
 rx_data_final_2 = vitdec(Demap_out_case_2,trel,7,'trunc','hard');
 
 % rx_data is the final output corresponding to tx_data, which can be used

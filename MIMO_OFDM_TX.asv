@@ -1,7 +1,7 @@
 %% MIMO_OFDM_TX.m
 
 % snr= 10:1:20; % in db
-% snr=25;
+snr=40;
 
 WRITE_PNG_FILES         = 0;           % Enable writing plots to PNG
 
@@ -18,7 +18,7 @@ TX_SPATIAL_STREAM_SHIFT=3;
 
 % Waveform params
 N_OFDM_SYMS             = 500;         % Number of OFDM symbols
-MOD_ORDER               =  6;          % Modulation order in power of 2 (1/2/4/6 = BSPK/QPSK/16-QAM/64-QAM)
+MOD_ORDER               =  4;          % Modulation order in power of 2 (1/2/4/6 = BSPK/QPSK/16-QAM/64-QAM)
 TX_SCALE                = 1.0;         % Scale for Tx waveform ([0:1])
 
 % OFDM params
@@ -142,4 +142,4 @@ rx_vec_air_2B = rx_vec_air_2B + noise_power*complex(randn(1,length(rx_vec_air_2B
 raw_rx_dec_A=generate_downsample_rx(rx_vec_air_2A,INTERP_RATE, interp_filt2);
 raw_rx_dec_B=generate_downsample_rx(rx_vec_air_2B,INTERP_RATE, interp_filt2);
 
-trel = poly2trellis(7, [171 133]);
+trel = poly2trellis()
